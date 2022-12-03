@@ -24,10 +24,12 @@ public class AverageHashPhotoComparisonService : IPhotoComparisonService
         var hashA = CalculateHash(imageABmp);
         var hashB = CalculateHash(imageBBmp);
 
-        var hashAnd = hashA.And(hashB);
-        foreach (bool isEqual in hashAnd)
+        for (int i = 0; i < 64; i++)
         {
-            if (!isEqual) return false;
+            if (hashA[i] != hashB[i])
+            {
+                return false;
+            }
         }
 
         return true;
@@ -59,7 +61,6 @@ public class AverageHashPhotoComparisonService : IPhotoComparisonService
             return color;
         });
         
-
         return hash;
     }
 }
