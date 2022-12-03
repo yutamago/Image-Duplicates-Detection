@@ -3,5 +3,5 @@
 public enum AlgorithmOptions
 {
     Average,
-    Perceptual
+    Median
 }

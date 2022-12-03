@@ -15,7 +15,7 @@ internal static class Program
 
         IPhotoComparisonService photoComparisonService = algorithmTyped switch
         {
-            AlgorithmOptions.Perceptual => new PerceptualHashPhotoComparisonService(),
+            AlgorithmOptions.Median => new MedianHashPhotoComparisonService(),
             _ => new AverageHashPhotoComparisonService(),
         };
 
@@ -39,7 +39,7 @@ internal static class Program
         newOptions.FileB = (Console.ReadLine() ?? "").Trim();
 
         Console.WriteLine("Enter an algorithm or leave empty.");
-        Console.WriteLine($"Options: {nameof(AlgorithmOptions.Average)},  {nameof(AlgorithmOptions.Perceptual)}");
+        Console.WriteLine($"Options: {nameof(AlgorithmOptions.Average)},  {nameof(AlgorithmOptions.Median)}");
 
         var algorithmRaw = (Console.ReadLine() ?? "").Trim();
         if (algorithmRaw.Length > 0)
