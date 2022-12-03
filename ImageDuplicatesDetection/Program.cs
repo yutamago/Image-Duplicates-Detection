@@ -10,7 +10,14 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
-        var options = args.Length == 0 ? GetOptionsFromConsole() : GetOptionsFromArgs(args);
+        if (args.Length == 0)
+        {
+            Console.WriteLine("Usage: path1 path2 [algorithm]");
+            Console.WriteLine($"Algorithms: {nameof(AlgorithmOptions.Average)},  {nameof(AlgorithmOptions.Median)}");
+            return;
+        }
+        
+        var options = GetOptionsFromArgs(args);
         ValidateOptions(options, out var algorithmTyped);
 
         IPhotoComparisonService photoComparisonService = algorithmTyped switch
@@ -22,32 +29,7 @@ internal static class Program
         var result = await photoComparisonService.CompareAsync(options.FileA!, options.FileB!);
 
         Console.WriteLine(result ? "The images are EQUAL." : "The images are DIFFERENT.");
-        Console.Read();
-    }
-
-
-    private static Options GetOptionsFromConsole()
-    {
-        var newOptions = new Options();
-
-        Console.WriteLine("=== Image Duplicate Detection ===");
-
-        Console.WriteLine("Enter Path to File A");
-        newOptions.FileA = (Console.ReadLine() ?? "").Trim();
-
-        Console.WriteLine("Enter Path to File B");
-        newOptions.FileB = (Console.ReadLine() ?? "").Trim();
-
-        Console.WriteLine("Enter an algorithm or leave empty.");
-        Console.WriteLine($"Options: {nameof(AlgorithmOptions.Average)},  {nameof(AlgorithmOptions.Median)}");
-
-        var algorithmRaw = (Console.ReadLine() ?? "").Trim();
-        if (algorithmRaw.Length > 0)
-        {
-            newOptions.Algorithm = algorithmRaw;
-        }
-
-        return newOptions;
+        return;
     }
 
     private static Options GetOptionsFromArgs(IReadOnlyList<string> args)
